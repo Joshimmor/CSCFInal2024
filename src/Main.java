@@ -15,10 +15,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main extends Application {
+    Store state;
     public static void main(String[] args) {
         launch(args);
     }
@@ -88,11 +90,15 @@ public class Main extends Application {
         primaryStage.show();
     }
     private void readCSV(File file) {
+        List<Student> studentList = new ArrayList<Student>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line); // Print each line of the CSV file
+                String[] args = line.split(",");
+                Student _student = new Student(args[0],Float.parseFloat(args[1]));
+                studentList.add(_student);
             }
+            state = new Store(studentList);
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
         }

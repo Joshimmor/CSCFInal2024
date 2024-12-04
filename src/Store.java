@@ -6,8 +6,8 @@ public class Store {
     LinkedList<Student> students = new LinkedList<Student>();
     float average, minGrade, maxGrade = 0;
     double standardDeviation;
-    public Store(Student[] studentsList){
-        students.addAll(List.of(studentsList));
+    public Store(List<Student> studentsList){
+        students.addAll(studentsList);
         calculateStatistics();
     }
     public Store() {}
