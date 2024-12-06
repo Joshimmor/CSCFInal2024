@@ -1,8 +1,16 @@
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -21,24 +29,21 @@ import java.util.List;
 
 public class Main extends Application {
     Store state;
+    private ObservableList<Student> activeStudents = FXCollections.observableArrayList();
+    private ListView<Student> listView = new ListView<>();
+    private TextField searchField = new TextField();
     public static void main(String[] args) {
         launch(args);
     }
     @Override
     public void start(Stage primaryStage) {
         //setting window
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Student Grade Analyzer");
         //creating button
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        //button on click
-        btn.setOnAction((ActionEvent event) -> {
-            System.out.println("Hello World!");
-        });
+
         //layout for root
         StackPane root = new StackPane();
-        //adding button to layout
-//        root.getChildren().add(btn);
+        //File Selection Button and Logic
         Button fileSelectionButton = new Button("Select File");
         fileSelectionButton.setOnAction((ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
@@ -56,7 +61,24 @@ public class Main extends Application {
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
             readCSV(selectedFile);
         });
-        root.getChildren().add(fileSelectionButton);
+
+        //Student List and Filter
+//        searchField.setPromptText("Search for Student");
+        searchField.textProperty().addListener((observable,oldValue,newValue )->filterList(newValue));
+        listView.setItems(activeStudents);
+        listView.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Student student, boolean empty) {
+                super.updateItem(student, empty);
+                if (empty || student == null) {
+                    setText(null);
+                } else {
+                    setText(student.getName() + "   -   Grade: " + String.format("%.2f", student.getGrade()));
+                }
+            }
+        });
+        VBox dataFilteringView = new VBox(10,searchField,listView,fileSelectionButton);
+        dataFilteringView.setPadding(new Insets(20));
         //Adding graph
 //        final NumberAxis xAxis = new NumberAxis();
 //        final NumberAxis yAxis = new NumberAxis();
@@ -85,7 +107,7 @@ public class Main extends Application {
 //        lineChart.getData().add(series);
 //        root.getChildren().add(lineChart);
         //creating new scene
-        primaryStage.setScene(new Scene(root, 300, 250));
+        primaryStage.setScene(new Scene(dataFilteringView, 800, 800));
         //show
         primaryStage.show();
     }
@@ -101,6 +123,21 @@ public class Main extends Application {
             state = new Store(studentList);
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
+            state = new Store(new ArrayList<Student>());
         }
+        activeStudents.addAll(state.students);
+    }
+    private void filterList(String query) {
+        ObservableList<Student> filteredList = FXCollections.observableArrayList();
+
+        // Check if the query matches the name (case insensitive)
+        for (Student _student: activeStudents) {
+            if (_student.getName().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(_student);
+            }
+        }
+
+        // Update the ListView with the filtered list
+        listView.setItems(filteredList);
     }
 }

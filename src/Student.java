@@ -1,11 +1,11 @@
 public class Student {
-    float grade;
+    Float grade;
     String name;
-    public Student(String name,float grade) {
+    public Student(String name,Float grade) {
         this.grade = grade;
         this.name = name;
     }
-    public float getGrade() {
+    public Float getGrade() {
         return grade;
     }
     public String getName() {
