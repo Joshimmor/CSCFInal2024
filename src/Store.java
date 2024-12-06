@@ -20,14 +20,14 @@ public class Store {
         calculateStatistics();
     }
 
-    public float calculateAverage(float summation){
+    public float calculateAverage(Float summation){
         return summation/ students.size();
     }
-    public void findExtremaGrades(float grade){
+    public void findExtremaGrades(Float grade){
         if(grade > maxGrade){ maxGrade = grade; }
         if(grade < minGrade ||  minGrade==0){ minGrade = grade; }
     }
-    public double calculateStandardDeviation(float deviationSummation){
+    public double calculateStandardDeviation(Float deviationSummation){
         return Math.sqrt(deviationSummation/ students.size());
     }
     public void calculateStatistics(){
