@@ -159,7 +159,7 @@ public class Main extends Application {
         tabPane.getTabs().addAll(fileSelectionPage);
 
         // creating new scene
-        primaryStage.setScene(new Scene(tabPane, 800, 800));
+        primaryStage.setScene(new Scene(tabPane, 1400, 1000));
         // show
         primaryStage.show();
     }
@@ -273,7 +273,7 @@ public class Main extends Application {
      */
     private void highLowGraph(VBox view) {
         final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis(0, 100, 5);
         xAxis.setLabel("Grade type");
         yAxis.setLabel("Grades");
         // Create the Bar Chart
