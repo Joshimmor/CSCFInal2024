@@ -38,7 +38,7 @@ public class Store {
             sum += student.getGrade();
             findExtremaGrades(student.getGrade());
         }
-        average = calculateAverage(average);
+        this.average = calculateAverage(sum);
         Iterator<Student> iterator2 = students.iterator();
         float deviationSum = 0;
         while(iterator2.hasNext()){
