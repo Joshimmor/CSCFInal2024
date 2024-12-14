@@ -25,7 +25,9 @@ public class Store {
     }
     public void findExtremaGrades(Float grade){
         if(grade > maxGrade){ maxGrade = grade; }
-        if(grade < minGrade ||  minGrade==0){ minGrade = grade; }
+        // removed the or statement here, minGrade == 0, this would be bad for other sample sizes
+        // such that the minGrade is actually zero.
+        if(grade < minGrade){ minGrade = grade; }
     }
     public double calculateStandardDeviation(Float deviationSummation){
         return Math.sqrt(deviationSummation/ students.size());
