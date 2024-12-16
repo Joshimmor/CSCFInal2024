@@ -4,7 +4,8 @@ import java.util.List;
 
 public class Store {
     LinkedList<Student> students = new LinkedList<Student>();
-    float average, minGrade, maxGrade = 0;
+    float average, maxGrade = 0;
+    float minGrade = Float.POSITIVE_INFINITY;
     double standardDeviation;
     public Store(List<Student> studentsList){
         students.addAll(studentsList);
